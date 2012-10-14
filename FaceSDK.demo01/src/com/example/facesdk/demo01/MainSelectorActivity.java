@@ -25,15 +25,14 @@ public class MainSelectorActivity extends Activity{
 				Intent mIntent = new Intent(MainSelectorActivity.this, DebugActivity.class);
 				startActivity(mIntent);
 			}
-		});
+		}); 
 		btn02.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				Intent mIntent = new Intent(MainSelectorActivity.this, RectangleDemo.class);
 				startActivity(mIntent);
 			}
 		});
-		
-		
 	}
-
+	
+	
 }
