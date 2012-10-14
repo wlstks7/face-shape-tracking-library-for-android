@@ -18,7 +18,7 @@ import com.jeikei.facelibrary.ShapeWrapper;
 import com.jeikei.facelibrary.fstLibrary;
 import com.jeikei.facelibrary.fstLibraryBase;
 
-public class RectangleDemo extends Activity{
+public class PortraitDemo extends Activity{
 
 	fstLibrary face_sdkView;
 	ShapeWrapper sWrapper;
@@ -26,17 +26,17 @@ public class RectangleDemo extends Activity{
 	FrameLayout faceSDK_layout;
 	FrameLayout mainFrameLayout;
 	
-	String TAG = "faceSDK:demo02";
+	String TAG = "faceSDK:demo03";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		setContentView(R.layout.rectangle_activity_layout);
+		setContentView(R.layout.portrait_activity_layout);
 		
 		face_sdkView = new fstLibrary(this, fstLibraryBase.FRONT_CAMERA);
-		faceSDK_layout = (FrameLayout)findViewById(R.id.demo02_faceSDKView);
-		mainFrameLayout  = (FrameLayout)findViewById(R.id.demo02_frameLayout);
+		faceSDK_layout = (FrameLayout)findViewById(R.id.demo03_faceSDKView);
+		mainFrameLayout  = (FrameLayout)findViewById(R.id.demo03_frameLayout);
 		
 		faceSDK_layout.addView(face_sdkView);
 		mainFrameLayout.addView(new rectangleSurface(this));
@@ -138,7 +138,7 @@ public class RectangleDemo extends Activity{
 			c.drawColor(Color.WHITE);
 			
 			drawFace(c);
-			c.drawBitmap(src, coordX, coordY, mPaint);
+			//c.drawBitmap(src, coordX, coordY, mPaint);
 		}
 		
 		private void drawFace(Canvas c)
@@ -149,14 +149,36 @@ public class RectangleDemo extends Activity{
 			float[] newX = sWrapper.getNormalizedShapeX(500, coordX);
 			float[] newY = sWrapper.getNormalizedShapeY(500, coordY);
 
+			mPaint.setStrokeWidth(2);
+			mPaint.setColor(0xffaa8822);
+			draw_shape_line(c, newX, newY, 0, 14, false, mPaint);	//Face outline
+			mPaint.setColor(Color.BLACK);
+			draw_shape_line(c, newX, newY, 37, 45, false, mPaint);	//nose
+			draw_shape_line(c, newX, newY, 15, 20, true, mPaint);	//left eyebrow
+			draw_shape_line(c, newX, newY, 21, 26, true, mPaint);	//right eyebrow
+			draw_shape_line(c, newX, newY, 32, 35, true, mPaint);	//left eye
+			draw_shape_line(c, newX, newY, 27, 30, true, mPaint);	//right eye
+			mPaint.setColor(Color.RED);
+			draw_shape_line(c, newX, newY, 60, 65, true, mPaint);	//inner lip
+			draw_shape_line(c, newX, newY, 48, 59, true, mPaint);	//outer lip
+			mPaint.setColor(Color.BLACK);
+			c.drawCircle(newX[31], newY[31], (float) 4, mPaint);
+			c.drawCircle(newX[36], newY[36], (float) 4, mPaint);
+			
+			/*
 			for(int i=0; i<75; i++)
 			{
 				mPaint.setColor(Color.BLACK);
-				mPaint.setStrokeWidth(2);
 				c.drawLine(newX[i], newY[i], newX[i+1], newY[i+1], mPaint);
 			}
+			*/
 		}
 		
+		void draw_shape_line(Canvas c, float[] _x, float[] _y, int S_POINT, int E_POINT, boolean isCloseDraw, Paint _mPaint)
+		{
+			for(int i=S_POINT; i<E_POINT; i++)	c.drawLine(_x[i], _y[i], _x[i+1], _y[i+1], mPaint);
+			if(isCloseDraw)	c.drawLine(_x[E_POINT], _y[E_POINT], _x[S_POINT], _y[S_POINT], mPaint);
+		}
 	} //rectangSurface Class
 
 }

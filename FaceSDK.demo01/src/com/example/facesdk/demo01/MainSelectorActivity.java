@@ -9,7 +9,7 @@ import android.widget.Button;
 
 public class MainSelectorActivity extends Activity{
 
-	Button btn01, btn02;
+	Button btn01, btn02, btn03;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +19,7 @@ public class MainSelectorActivity extends Activity{
 		
 		btn01 = (Button)findViewById(R.id.selector_btn01);
 		btn02 = (Button)findViewById(R.id.selector_btn02);
+		btn03 = (Button)findViewById(R.id.selector_btn03);
 		
 		btn01.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
@@ -28,7 +29,14 @@ public class MainSelectorActivity extends Activity{
 		}); 
 		btn02.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				Intent mIntent = new Intent(MainSelectorActivity.this, RectangleDemo.class);
+				Intent mIntent = new Intent(MainSelectorActivity.this, SphereDemo.class);
+				startActivity(mIntent);
+			}
+		});
+		
+		btn03.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				Intent mIntent = new Intent(MainSelectorActivity.this, PortraitDemo.class);
 				startActivity(mIntent);
 			}
 		});
