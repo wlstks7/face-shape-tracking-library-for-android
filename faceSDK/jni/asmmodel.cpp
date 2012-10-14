@@ -267,7 +267,7 @@ ASMFitResult ASMModel::fit(const cv::Mat& img, int verbose)
         // at most 5 iterations for each level
         int runT;
         double avgMov;
-        for (runT=0; runT<10; runT++){
+        for (runT=0; runT<15; runT++){
             // Backup current shape
             shape_old.fromPointList(curSearch.points);
 ////__android_log_write(ANDROID_LOG_DEBUG,"Tag","fitB6");
@@ -306,7 +306,7 @@ ASMFitResult ASMModel::fit(const cv::Mat& img, int verbose)
                     }
                 }
 //                 printf("best e: %d\n", bestI);
-//                 bestEP[i] = V[bestI+(ns+k)];
+                // bestEP[i] = V[bestI+(ns+k)];
                 totalOffset += abs(bestI);
 
                 if (verbose >= ASM_FIT_VERBOSE_AT_POINT)
@@ -341,7 +341,10 @@ ASMFitResult ASMModel::fit(const cv::Mat& img, int verbose)
                 curSearch.show(l);
             }
 
-            if (avgMov < 1.3){
+            //yangace
+            if (avgMov < 100.3){
+
+            //if (avgMov < 1.3){
                 runT++;
                 break;
             }

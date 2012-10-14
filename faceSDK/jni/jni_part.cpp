@@ -108,7 +108,7 @@ JNIEXPORT bool JNICALL Java_com_jeikei_facelibrary_fstLibrary_FindFeatures(JNIEn
 	sprintf(ch_debug, "time2 = %d", endTime-startTime);
 	__android_log_write(ANDROID_LOG_DEBUG, TAG, ch_debug );
 
-		for(int k=0; k<76; k++){
+		for(int k=48; k<66; k++){
 			//char s_test[512];
 			//sprintf(s_test, "X(%d) = %d, Y(%d) = %d\n", k+1, V[k].x, k+1, V[k].y);
 
@@ -117,6 +117,11 @@ JNIEXPORT bool JNICALL Java_com_jeikei_facelibrary_fstLibrary_FindFeatures(JNIEn
 
 			//__android_log_write(ANDROID_LOG_DEBUG,"Tag", s_test );
         }
+		 circle(mbgra, Point(V[51].x, V[51].y), 3, Scalar(0,255,0,255));
+		 circle(mbgra, Point(V[57].x, V[57].y), 3, Scalar(0,255,0,255));
+
+		 circle(mbgra, Point(V[48].x, V[48].y), 3, Scalar(255,0,0,255));
+		 circle(mbgra, Point(V[54].x, V[54].y), 3, Scalar(255,0,0,255));
 
 //	__android_log_write(ANDROID_LOG_DEBUG,"Tag","new draw00_2");
     }
