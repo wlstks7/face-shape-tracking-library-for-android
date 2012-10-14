@@ -7,8 +7,10 @@ public class TimerInterpolator implements Runnable{
 	private final static int NUM_OF_VALUE = 3;
 
 	private long startTime;
+	private long startCheckTime;
 	private long prev_timeGap;
 	private long current_timeGap;
+	private long current_timeTotalGap;
 	
 	private double[][] realValue = new double[2][NUM_OF_VALUE];
 	private double[] estimatedValue = new double[NUM_OF_VALUE];
@@ -115,6 +117,7 @@ public class TimerInterpolator implements Runnable{
 		if(startTime == -1)
 		{
 			startTime = System.currentTimeMillis();
+			startCheckTime = startTime;
 			
 			stateOfCompute = STATE_PREPARE;
 			//Log.i(TAG, "startTime = " + startTime);
@@ -124,13 +127,14 @@ public class TimerInterpolator implements Runnable{
 			prev_timeGap = (System.currentTimeMillis() - startTime);
 			//Log.i(TAG, "end-start = " + (long)(System.currentTimeMillis() - startTime) );
 			startTime = System.currentTimeMillis();
+			startCheckTime = startTime;
 			
 			stateOfCompute = STATE_READY; 
 			
 			e_currentPointer = 1-e_currentPointer;
 		}
 		
-		if(current_timeGap > 3000)
+		if(current_timeTotalGap > 3000)
 		{
 			startTime = System.currentTimeMillis();
 		}
@@ -140,9 +144,12 @@ public class TimerInterpolator implements Runnable{
 	{
 		if(startTime == -1) return -1;
 		
-		current_timeGap = System.currentTimeMillis() - startTime;
+		current_timeTotalGap = System.currentTimeMillis() - startTime;
+		current_timeGap = System.currentTimeMillis() - startCheckTime;
+		
+		startCheckTime = System.currentTimeMillis();
 			
-		double tmpTime = Math.log(prev_timeGap - current_timeGap) / Math.log(prev_timeGap);
+		double tmpTime = Math.log(prev_timeGap - current_timeTotalGap) / Math.log(prev_timeGap);
 		if(tmpTime < 0 || Double.isNaN(tmpTime)) tmpTime = 0;
 		
 		//Log.i(TAG, "prevTimeGap : " + prev_timeGap + ", currentTimeGap : "+ current_timeGap + ", tmpTime : " + tmpTime);
@@ -154,15 +161,19 @@ public class TimerInterpolator implements Runnable{
 	{
 		double tr = computeTimeRatio();
 		double slicedRatio = (((double)current_timeGap / (double)prev_timeGap) * tr);
+		//Log.i(TAG,"curr_timeGap : " + current_timeGap + ", prev_timeGap : " + prev_timeGap + ", slicedRatio : "+ slicedRatio + ", tr : " + tr);
 		
 		for(int i=0; i<NUM_OF_VALUE; i++)
 		{
-			estimatedValue[i] += ((slicedRatio) * realValue[e_currentPointer][i]);
+			final double LIMIT_THRESHOLD = 2;
 			
-			if(Math.abs(estimatedValue[i]) > Math.abs(realValue[e_currentPointer][i])*2)
-				estimatedValue[i] = realValue[e_currentPointer][i] * 2;
+			estimatedValue[i] += ((slicedRatio) * (realValue[e_currentPointer][i] + estimatedDirection[i]));
 			
-			Log.i(TAG, "estimatedValue["+i+"] : " + estimatedValue[i]);
+			
+			if(Math.abs(estimatedValue[i]) > (Math.abs(realValue[e_currentPointer][i]) + Math.abs(estimatedDirection[i])*LIMIT_THRESHOLD))
+				estimatedValue[i] = estimatedDirection[i] * LIMIT_THRESHOLD;
+			
+			//Log.i(TAG, "estimatedValue["+i+"] : " + estimatedValue[i]);
 		}
 		//Log.i(TAG, "slicedRatio(NO variable) : " + ((double)current_timeGap / (double)prev_timeGap));
 		//Log.i(TAG, "current_timeGap : " + current_timeGap + ", prev_timeGap : " + prev_timeGap + ", tr : " + tr);
@@ -177,7 +188,7 @@ public class TimerInterpolator implements Runnable{
 			
 			if(stateOfCompute == STATE_READY)	
 			{
-				computeTimeRatio();
+				//computeTimeRatio();
 				computeInterpolatedValues();
 			}
 				
