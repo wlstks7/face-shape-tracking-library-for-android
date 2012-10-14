@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary It connects to JNI functions which is about Active Shape Model.
 
 = Introduction =
 
@@ -27,4 +27,3 @@ Add your content here.  Format your content with:
 	  *  frameLayout.addView(mFstLibrary);   
 	      OR
 	  *  setContentView(mFstLibrary);
-
