@@ -21,6 +21,24 @@ public class fstLibrary extends fstLibraryBase {
 	
 	String TAG = "faceSDK:View";
 	
+	/**
+	 * 
+	 * @param context - android.content.Context
+	 * @param cIdx
+	 * <br />
+	 * 			- Camera Index<br />
+	 * 			- fstLibraryBase.BACK_CAMERA  - (0) <br />
+	 * 			- fstLibraryBase.FRONT_CAMERA - (1)
+	 * 
+	 * <br /><br />
+	 * @see
+	 * <b>Usage</b><br />
+	 *  fstLibrary mFstLibrary = fstLibrary(this, fstLibraryBase.FRONT_CAMERA);<br />
+	 *  frameLayout.addView(mFstLibrary);   Or<br />
+	 *  setContentView(mFstLibrary);
+	 *  
+	 */
+	
     public fstLibrary(Context context, int cIdx) {
         super(context, cIdx);
         
