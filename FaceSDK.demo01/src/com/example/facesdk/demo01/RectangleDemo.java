@@ -39,7 +39,6 @@ public class RectangleDemo extends Activity{
 		mainFrameLayout  = (FrameLayout)findViewById(R.id.demo02_frameLayout);
 		
 		faceSDK_layout.addView(face_sdkView);
-		faceSDK_layout.setVisibility(View.INVISIBLE);
 		mainFrameLayout.addView(new rectangleSurface(this));
 		
 	}
@@ -130,8 +129,8 @@ public class RectangleDemo extends Activity{
 			//Log.i(TAG, "bitmapWidth : " + src.getWidth() + ", bitmapHeight : " + src.getHeight() + ", pixel : " + src.getPixel(30, 30));
 			//img = Bitmap.createBitmap(src, x, y, mWidth, mHeight);
 			
-			//int coordX = x + (int)(x*sWrapper.getEstimatedFaceLocationX());
-			//int coordY = y + (int)(y*sWrapper.getEstimatedFaceLocationY());
+			//int coordX = x + (int)(x*-sWrapper.getEstimatedFaceLocationX());
+			//int coordY = y + (int)(y*-sWrapper.getEstimatedFaceLocationY());
 			
 			int coordX = x + (int)(-x*sWrapper.getFaceRelativeLocationX());
 			int coordY = y + (int)(-y*sWrapper.getFaceRelativeLocationY());
@@ -144,16 +143,17 @@ public class RectangleDemo extends Activity{
 		
 		private void drawFace(Canvas c)
 		{
+			int coordX = x + (int)(-x*sWrapper.getFaceRelativeLocationX());
+			int coordY = y + (int)(-y*sWrapper.getFaceRelativeLocationY());
+			
+			float[] newX = sWrapper.getNormalizedShapeX(500, coordX);
+			float[] newY = sWrapper.getNormalizedShapeY(500, coordY);
+
 			for(int i=0; i<75; i++)
 			{
-				float startX = (float)sWrapper.getShape(ShapeWrapper.AXIS_X, i);
-				float startY = (float)sWrapper.getShape(ShapeWrapper.AXIS_Y, i);
-				float endX = (float)sWrapper.getShape(ShapeWrapper.AXIS_X, i+1);
-				float endY = (float)sWrapper.getShape(ShapeWrapper.AXIS_Y, i+1);
-				
 				mPaint.setColor(Color.BLACK);
 				mPaint.setStrokeWidth(2);
-				c.drawLine(startX, startY, endX, endY, mPaint);
+				c.drawLine(newX[i], newY[i], newX[i+1], newY[i+1], mPaint);
 			}
 		}
 		

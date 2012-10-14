@@ -55,7 +55,7 @@ public class DebugActivity extends Activity {
         
         frameLayout = (FrameLayout)findViewById(R.id.faceSDK_demo01View);
         frameLayout.addView(face_sdkView);
-        
+          
         mHandler.sendEmptyMessage(0);
     }
      
