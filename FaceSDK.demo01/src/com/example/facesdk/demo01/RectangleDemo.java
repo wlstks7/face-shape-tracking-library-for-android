@@ -80,7 +80,6 @@ public class RectangleDemo extends Activity{
 			
 			mSurfaceHolder = getHolder();
 			mSurfaceHolder.addCallback(this);
-			
 		}
 
 		public void surfaceCreated(SurfaceHolder holder) {
@@ -89,7 +88,6 @@ public class RectangleDemo extends Activity{
 		}
 
 		public void surfaceChanged(SurfaceHolder holder, int format, int width,	int height) {
-			
 			mWidth = getWidth();
 			mHeight = getHeight();
 			
@@ -98,7 +96,8 @@ public class RectangleDemo extends Activity{
 		}
 		
 		public void surfaceDestroyed(SurfaceHolder holder) {
-			
+			holder.removeCallback(this);
+			isThreadRunning = false;
 		}
 		
 		public void run() {
