@@ -7,6 +7,7 @@
         android:minSdkVersion="10"
         android:targetSdkVersion="15" />
     <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
         android:icon="@drawable/ic_launcher"
@@ -25,7 +26,9 @@
         </activity>
         <activity android:name="DebugActivity"
             android:screenOrientation="landscape"></activity>
-        <activity android:name="RectangleDemo"
+        <activity android:name="SphereDemo"
+            android:screenOrientation="landscape"></activity>
+        <activity android:name="PortraitDemo"
             android:screenOrientation="landscape"></activity>
         <activity android:name="InvaderDemo"
             android:screenOrientation="landscape"></activity>

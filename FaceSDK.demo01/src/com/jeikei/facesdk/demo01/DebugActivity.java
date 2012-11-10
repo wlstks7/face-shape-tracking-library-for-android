@@ -25,11 +25,7 @@ public class DebugActivity extends Activity {
 		@Override
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
-			/*
-			txtView01.setText(sWrapper.getFaceRelativeLocationX() + "");
-			txtView02.setText(sWrapper.getFaceRelativeLocationY() + "");
-			txtView03.setText(sWrapper.getFaceDistance() + "");
-			*/
+
 			txtView01.setText(sWrapper.getEstimatedFaceLocationX() + "");
 			txtView02.setText(sWrapper.getEstimatedFaceLocationY() + "");
 			txtView03.setText(sWrapper.getEstimatedFaceDistance() + "");

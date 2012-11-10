@@ -8,9 +8,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.PowerManager;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.Window;
 import android.widget.FrameLayout;
 
 import com.jeikei.facelibrary.ShapeWrapper;
@@ -25,27 +26,34 @@ public class InvaderDemo extends Activity{
 	FrameLayout faceSDK_layout;
 	FrameLayout mainFrameLayout;
 	
+	PowerManager powerManager;
+	PowerManager.WakeLock powerManagerWL;
+	
 	String TAG = "faceSDK:demo04";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
-		setContentView(R.layout.portrait_activity_layout);
+		setContentView(R.layout.invader_activity_layout);
 		
 		face_sdkView = new fstLibrary(this, fstLibraryBase.FRONT_CAMERA);
-		faceSDK_layout = (FrameLayout)findViewById(R.id.demo03_faceSDKView);
-		mainFrameLayout  = (FrameLayout)findViewById(R.id.demo03_frameLayout);
+		faceSDK_layout = (FrameLayout)findViewById(R.id.demo04_faceSDKView);
+		mainFrameLayout  = (FrameLayout)findViewById(R.id.demo04_frameLayout);
 		
 		faceSDK_layout.addView(face_sdkView);
 		mainFrameLayout.addView(new rectangleSurface(this));
 		
+		powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+		powerManagerWL= powerManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "mTag");
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
 		sWrapper.release();
+		powerManagerWL.release();
 	}
 	
 	@Override
@@ -53,6 +61,7 @@ public class InvaderDemo extends Activity{
 		super.onResume();
 		sWrapper = ShapeWrapper.getInstance();
 		sWrapper.resume();
+		powerManagerWL.acquire();
 	}
 
 
@@ -127,6 +136,9 @@ public class InvaderDemo extends Activity{
 			
 			while(isThreadRunning)
 			{
+				face_sdkView.setPreviewWidth(160);
+				face_sdkView.setPreviewHeight(120);
+				
 				try{
 					c = mSurfaceHolder.lockCanvas();
 					
@@ -147,7 +159,7 @@ public class InvaderDemo extends Activity{
 		
 		private void doDraw(Canvas c)
 		{	
-			mScore = mScore + (System.currentTimeMillis() - startTime);
+			mScore = mScore + (int)((System.currentTimeMillis() - startTime)/2);
 			startTime = System.currentTimeMillis();
 			
 			int coordX = x + (int)(-x*sWrapper.getFaceRelativeLocationX());
@@ -182,7 +194,7 @@ public class InvaderDemo extends Activity{
 					txtPaint.setTextSize(60);
 					c.drawText("HIT!!", 200, 100, txtPaint);
 					
-					mScore = mScore - 200;
+					mScore = mScore - 100;
 					if(mScore < 0)
 						mScore = 0;
 					
@@ -191,8 +203,10 @@ public class InvaderDemo extends Activity{
 			}
 			c.drawBitmap(ballImg, coordX, coordY, null);
 			c.drawCircle(coordX + 40 , coordY + 40, 4, mPaint);
-			txtPaint.setTextSize(40);
-			c.drawText(mScore+"", (mWidth/2)-40, 50, txtPaint);
+			txtPaint.setTextSize(30);
+			c.drawText("Score", (mWidth/2)-20, 40, txtPaint);
+			txtPaint.setTextSize(45);
+			c.drawText(mScore+"", (mWidth/2)-30, 90, txtPaint);
 		}//doDraw
 		/*
 		private void drawFace(Canvas c)
