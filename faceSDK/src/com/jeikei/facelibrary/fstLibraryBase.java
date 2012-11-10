@@ -26,11 +26,14 @@ public abstract class fstLibraryBase extends SurfaceView implements SurfaceHolde
     private SurfaceHolder       mHolder;
     private int                 mFrameWidth;
     private int                 mFrameHeight;
+    private int 				mPreviewWidth;
+    private int					mPreviewHeight;
     private byte[]              mFrame;
     private boolean             mThreadRun;
     private byte[]              mBuffer;
 
     private static final String TAG = "faceSDK:ViewBase";
+    private static final boolean D = true;
     
     public static final int BACK_CAMERA = 0;
     public static final int FRONT_CAMERA = 1;
@@ -43,7 +46,7 @@ public abstract class fstLibraryBase extends SurfaceView implements SurfaceHolde
         mHolder.addCallback(this);
         
         usingCameraIdx = cIdx;
-        Log.i(TAG, "Instantiated new " + this.getClass());
+        if(D)  Log.d(TAG, "Instantiated new " + this.getClass());
     }
     public fstLibraryBase(Context context, AttributeSet attrs)
     {
@@ -52,7 +55,7 @@ public abstract class fstLibraryBase extends SurfaceView implements SurfaceHolde
         mHolder.addCallback(this);
         
         usingCameraIdx = FRONT_CAMERA;
-        Log.i(TAG, "Instantiated new " + this.getClass());
+        if(D)  Log.d(TAG, "Instantiated new " + this.getClass());
     }
     public fstLibraryBase(Context context, AttributeSet attrs, int defStyle)
     {
@@ -61,7 +64,7 @@ public abstract class fstLibraryBase extends SurfaceView implements SurfaceHolde
         mHolder.addCallback(this);
         
         usingCameraIdx = FRONT_CAMERA;
-        Log.i(TAG, "Instantiated new " + this.getClass());
+        if(D)  Log.d(TAG, "Instantiated new " + this.getClass());
     }
 
     public int getFrameWidth() {
@@ -70,6 +73,16 @@ public abstract class fstLibraryBase extends SurfaceView implements SurfaceHolde
 
     public int getFrameHeight() {
         return mFrameHeight;
+    }
+    public void setPreviewWidth(int _width)
+    {
+    	mPreviewWidth = _width;
+    	//if(D)  Log.d(TAG, "setFrameWidth : " + mFrameWidth);
+    }
+    public void setPreviewHeight(int _height)
+    {
+    	mPreviewHeight = _height;
+    	//if(D)  Log.d(TAG, "setFrameHeight : " + mFrameHeight);
     }
 
     public void setPreview() throws IOException {
@@ -80,7 +93,7 @@ public abstract class fstLibraryBase extends SurfaceView implements SurfaceHolde
 	}
 
     public void surfaceChanged(SurfaceHolder _holder, int format, int width, int height) {
-        Log.i(TAG, "surfaceChanged");
+        if(D)  Log.d(TAG, "surfaceChanged");
         if (mCamera != null) {
    	
             Camera.Parameters params = mCamera.getParameters();
@@ -95,13 +108,13 @@ public abstract class fstLibraryBase extends SurfaceView implements SurfaceHolde
             mFrameWidth = width;
             mFrameHeight = height;
             
-            Log.i(TAG, "width : " + width + ", height : " + height);
+            if(D)  Log.d(TAG, "width : " + width + ", height : " + height);
             // selecting optimal camera preview size
             
             {
                 int  minDiff = Integer.MAX_VALUE;
                 for (Camera.Size size : sizes) {
-                	//Log.i(TAG, "Sizewidth : " + size.width + ", Sizeheight : " + size.height);
+                	//if(D)  Log.d(TAG, "Sizewidth : " + size.width + ", Sizeheight : " + size.height);
                 	
                     if ((Math.abs(size.height - height) + Math.abs(size.width - width)) < minDiff) {
                         mFrameWidth = size.width;
@@ -110,8 +123,9 @@ public abstract class fstLibraryBase extends SurfaceView implements SurfaceHolde
                     }
                 }
             }
-            
-            Log.i(TAG, "mFramewidth : " + mFrameWidth + ", mFrameheight : " + mFrameHeight);
+            mPreviewWidth = mFrameWidth;
+            mPreviewHeight = mFrameHeight;
+            if(D)  Log.d(TAG, "mFramewidth : " + mFrameWidth + ", mFrameheight : " + mFrameHeight);
             
             params.setPreviewSize(getFrameWidth(), getFrameHeight());
 
@@ -147,7 +161,7 @@ public abstract class fstLibraryBase extends SurfaceView implements SurfaceHolde
     }
 
     public void surfaceCreated(SurfaceHolder holder) {
-        Log.i(TAG, "surfaceCreated");
+        if(D)  Log.d(TAG, "surfaceCreated");
         if(mCamera == null)	mCamera = Camera.open( usingCameraIdx );		//prevent camera won't work. modified by JeiKei
 
         mCamera.setPreviewCallbackWithBuffer(new PreviewCallback() {
@@ -163,7 +177,7 @@ public abstract class fstLibraryBase extends SurfaceView implements SurfaceHolde
     }
 
     public void surfaceDestroyed(SurfaceHolder holder) {
-        Log.i(TAG, "surfaceDestroyed");
+        if(D)  Log.d(TAG, "surfaceDestroyed");
         mThreadRun = false;
         if (mCamera != null) {
             synchronized (this) {
@@ -203,9 +217,10 @@ public abstract class fstLibraryBase extends SurfaceView implements SurfaceHolde
     
     public void run() {
         mThreadRun = true;
-        Log.i(TAG, "Starting processing thread");
+        if(D)  Log.d(TAG, "Starting processing thread");
         while (mThreadRun) {
             Bitmap bmp = null;
+            Bitmap resizedBmp = null;
             //Bitmap face_bmp = BitmapFactory.decodeResource(getResources(), org.opencv.samples.tutorial3.R.drawable.face_test);	//Added on 0706 by JeiKei
             //byte[] bmp2byte = bitmapToByteArray(face_bmp);
             //ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
@@ -223,21 +238,23 @@ public abstract class fstLibraryBase extends SurfaceView implements SurfaceHolde
         			{
         				tmp_str = tmp_str + String.valueOf( mFrame[i] );
         			}
-                    Log.i(TAG, tmp_str);
+                    if(D)  Log.d(TAG, tmp_str);
                     */
                     
                     bmp = processFrame(mFrame);
-                    
+                    resizedBmp = Bitmap.createScaledBitmap(bmp, mPreviewWidth, mPreviewHeight, true);
+                    //if(D)  Log.d(TAG, "bitmap width : " + mPreviewWidth+ ", height : " + mPreviewHeight);
                  
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
             
-            if (bmp != null) {
+            if (resizedBmp != null) {
                 Canvas canvas = mHolder.lockCanvas();
                 if (canvas != null) {
-                    canvas.drawBitmap(bmp, (canvas.getWidth() - getFrameWidth()) / 2, (canvas.getHeight() - getFrameHeight()) / 2, null);
+                    canvas.drawBitmap(resizedBmp, 0, 0, null);
+                    		//(canvas.getWidth() - getFrameWidth()) / 2, (canvas.getHeight() - getFrameHeight()) / 2, null);
                     mHolder.unlockCanvasAndPost(canvas);
                 }
             }

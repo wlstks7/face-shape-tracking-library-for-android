@@ -23,7 +23,6 @@ public class ShapeTransform {
 	
 	private double faceRatio;
 	
-	
 	private String str_idx = new String();
 	
 	public ShapeTransform() {
@@ -97,7 +96,7 @@ public class ShapeTransform {
 		//mShape = new ModelShape();
 		//mShape.compareShape(x, y);
 		
-		//////////////////// ºñ±³ÇØ¼­ ¼±ÅÃµÈ ÁÂÇ¥·Î º¯°æ.
+		//////////////////// ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½Ãµï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½.
 		//x = mShape.getSelectedShapeX();
 		//y = mShape.getSelectedShapeY();
 		
@@ -143,12 +142,12 @@ public class ShapeTransform {
 		double mouthOpenThreshold = 0.02;
 		
 		double mouthOpenedLevel = y[62]-y[63];
-		////ÀÔÀÌ ¹ú·ÁÀÖÀ» °æ¿ì¿¡¸¸ ¾Æ·¡ ¼öÇà
+		////ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ ï¿½Æ·ï¿½ ï¿½ï¿½ï¿½ï¿½
 		if(mouthOpenedLevel < mouthOpenThreshold)	return;
 		
 		mouthOpenedLevel -= mouthOpenThreshold;
 		
-		for(int i=55; i<63; i++)	//ÀÔÀ» ¹ú¸®°í ÀÖ±â ¶§¹®¿¡ ÀÔ Å©±â Á¶Àý
+		for(int i=55; i<63; i++)	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ Å©ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		{
 			y[i] = y[i] - mouthOpenedLevel;
 		}
@@ -170,7 +169,7 @@ public class ShapeTransform {
 			tmpX[i] = 0;
 			tmpY[i] = 0;
 			
-			////¸ðµ¨ shape¿¡ ÁöÁ¤µÇÁö ¾ÊÀº °ª °Ë»ç (x=0, y=0)
+			////ï¿½ï¿½ shapeï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ë»ï¿½ (x=0, y=0)
 			if( (modelShapeX[i]==0) && (modelShapeY[i]==0) )
 			{
 				tmpX[i] = x[i];
@@ -178,7 +177,7 @@ public class ShapeTransform {
 			}
 		}
 		
-		///À§¿¡¼­ ±¸ÇÑ ÁöÁ¤µÇÁö ¾ÊÀº °ªÀ» ¾ó±¼¿¡¼­ ±¸ÇÑ Æ÷ÀÎÆ®·Î Ã¤¿ö³ÖÀ½
+		///ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ó±¼¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ Ã¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		for(int i=0; i<modelShapeX.length; i++)
 		{
 			modelShapeX[i] += tmpX[i];
@@ -273,7 +272,7 @@ public class ShapeTransform {
 	private void centerTransform()
 	{
 		double _c_nose, _c_lips, _c_eye;
-		//////////////////¾ó±¼ Áß½ÉÁ¡ ±¸ÇÏ±â
+		//////////////////ï¿½ï¿½ ï¿½ß½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ï±ï¿½
 		c_faceX = 0;
 		for(int i=0; i<7; i++)
 		{
@@ -282,29 +281,29 @@ public class ShapeTransform {
 		c_faceX = c_faceX/7;
 		////////////////
 		
-		_c_eye = (x[34]+x[29])/2;		////////////// ´« Áß½ÉÁ¡(¹Ì°£) ±¸ÇÏ±â
-		_c_lips = (x[51]+x[61])/2;		//ÀÔ Áß½ÉÁ¡
+		_c_eye = (x[34]+x[29])/2;		////////////// ï¿½ï¿½ ï¿½ß½ï¿½ï¿½ï¿½(ï¿½Ì°ï¿½) ï¿½ï¿½ï¿½Ï±ï¿½
+		_c_lips = (x[51]+x[61])/2;		//ï¿½ï¿½ ï¿½ß½ï¿½ï¿½ï¿½
 		_c_nose = x[41];
 		
 		Log.d("CENTER", "c_eye = " + _c_eye + ", c_lips = " + _c_lips + ", c_nose = " + _c_nose);
-		//´«½çºÎÅÍ ´«±îÁö
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		for(int i=15; i<37; i++)
 		{
 			x[i] = x[i]-(_c_eye);			
 		}
-		//Ãß°¡ ´«
+		//ï¿½ß°ï¿½ ï¿½ï¿½
 		for(int i=68; i<x.length; i++)
 		{
 			x[i] = x[i]-(_c_eye);			
 		}
 		
-		///ÄÚ
+		///ï¿½ï¿½
 		for(int i=37; i<48; i++)
 		{
 			x[i] = x[i]-(_c_nose);
 		}
 		
-		///ÀÔ
+		///ï¿½ï¿½
 		for(int i=48; i<67; i++)
 		{
 			x[i] = x[i]-(_c_lips);
@@ -472,15 +471,15 @@ public class ShapeTransform {
 	
 	private void centerLineSymmetry()
 	{
-		// ¸ÅÄªµÈ °ª ÀúÀåº¯¼ö
+		// ï¿½ï¿½Äªï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½åº¯ï¿½ï¿½
 		double[][] SyemmetryX = new double[34][2];
 		double[][] SyemmetryY = new double[34][2];
 		
-		//ÁÂ¿ì´ëÄª Æò±ÕµÈ ÀúÀåº¯¼ö
+		//ï¿½Â¿ï¿½ï¿½Äª ï¿½ï¿½Õµï¿½ ï¿½ï¿½ï¿½åº¯ï¿½ï¿½
 		double[] centerSyemmetryX = new double[34];
 		double[] centerSyemmetryY = new double[34];
 		
-		//¿Ü°¢¼±
+		//ï¿½Ü°ï¿½ï¿½ï¿½
 		for(int i=0; i<7; i++)
 		{
 			SyemmetryX[i][0] = x[i]; 
@@ -490,7 +489,7 @@ public class ShapeTransform {
 			SyemmetryY[i][1] = y[14-i]; 
 		}
 		
-		//´«½ç
+		//ï¿½ï¿½ï¿½ï¿½
 		for(int i=7; i<13; i++)
 		{
 			SyemmetryX[i][0] = x[i+14]; 
@@ -501,7 +500,7 @@ public class ShapeTransform {
 		}
 	
 		
-		//´«µ¿ÀÚ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		for(int i=13; i<18; i++)
 		{
 			SyemmetryX[i][0] = x[i+14]; 
@@ -511,7 +510,7 @@ public class ShapeTransform {
 			SyemmetryY[i][1] = y[i+19]; 
 		}
 		
-		//ÄÚ
+		//ï¿½ï¿½
 		for(int i=18; i<22; i++)
 		{
 			SyemmetryX[i][0] = x[i+19]; 
@@ -527,7 +526,7 @@ public class ShapeTransform {
 		SyemmetryY[22][0] = y[46]; 
 		SyemmetryY[22][1] = y[47]; 
 		
-		//ÀÔ
+		//ï¿½ï¿½
 		
 		SyemmetryX[23][0] = x[50]; 
 		SyemmetryX[23][1] = x[52]; 
@@ -579,10 +578,10 @@ public class ShapeTransform {
 		
 		}
 		
-		// ÁÂ¿ì ´ëÄª µÈ °ª Àç ÀÔ·Â ÇÏ±â
+		// ï¿½Â¿ï¿½ ï¿½ï¿½Äª ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½Ô·ï¿½ ï¿½Ï±ï¿½
 		
 		
-		//¿Ü°¢¼±
+		//ï¿½Ü°ï¿½ï¿½ï¿½
 		for(int i=0; i<7; i++)
 		{
 			x[i] = (centerSyemmetryX[i] * -1); 
@@ -592,7 +591,7 @@ public class ShapeTransform {
 			y[14-i] = centerSyemmetryY[i]; 
 		}
 		
-		//´«½ç
+		//ï¿½ï¿½ï¿½ï¿½
 		for(int i=7; i<13; i++)
 		{
 			x[i+14] = (centerSyemmetryX[i] * -1); 
@@ -604,7 +603,7 @@ public class ShapeTransform {
 		}
 	
 		
-		//´«µ¿ÀÚ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		for(int i=13; i<18; i++)
 		{
 			x[i+14] = (centerSyemmetryX[i] * -1); 
@@ -615,7 +614,7 @@ public class ShapeTransform {
 
 		}
 		
-		//ÄÚ
+		//ï¿½ï¿½
 		for(int i=18; i<22; i++)
 		{
 			x[i+19] = (centerSyemmetryX[i] * -1); 
@@ -632,7 +631,7 @@ public class ShapeTransform {
 		y[46] =centerSyemmetryY[22]; 
 		y[47] =centerSyemmetryY[22]; 
 		
-		//ÀÔ
+		//ï¿½ï¿½
 		
 		
 		x[50] =centerSyemmetryX[23] * -1; 
