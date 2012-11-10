@@ -13,5 +13,8 @@
     <Button 
         android:layout_width="match_parent"		android:layout_height="wrap_content"
         android:id="@+id/selector_btn03"		android:text="Portrait Demo"/>
+    <Button 
+        android:layout_width="match_parent"		android:layout_height="wrap_content"
+        android:id="@+id/selector_btn04"		android:text="Invader Demo"/>
     
 </LinearLayout>
