@@ -23,8 +23,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="DebugActivity"></activity>
-        <activity android:name="SphereDemo"></activity>
-        <activity android:name="PortraitDemo"></activity>
+        <activity android:name="DebugActivity"
+            android:screenOrientation="landscape"></activity>
+        <activity android:name="RectangleDemo"
+            android:screenOrientation="landscape"></activity>
+        <activity android:name="InvaderDemo"
+            android:screenOrientation="landscape"></activity>
     </application>
+
 </manifest>
