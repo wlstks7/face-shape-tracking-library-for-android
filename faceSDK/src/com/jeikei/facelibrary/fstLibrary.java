@@ -19,7 +19,9 @@ public class fstLibrary extends fstLibraryBase {
 	private int[] mRGBA;
 	ShapeWrapper sWrapper = ShapeWrapper.getInstance();
 	
-	String TAG = "faceSDK:View";
+	
+	private final static String TAG = "faceSDK:View";
+	private final static Boolean D = true;
 	
 	/**
 	 * 
@@ -67,9 +69,9 @@ public class fstLibrary extends fstLibraryBase {
             File cascadeFile2 = new File(cascadeDir2, "muct76.model");
             FileOutputStream os2 = new FileOutputStream(cascadeFile2);
             /*
-            Log.i("TAG", String.valueOf(cascadeFile2.length()));
+            if(D)  Log.d("TAG", String.valueOf(cascadeFile2.length()));
             if(!cascadeFile2.canRead()){
-            	Log.i("TAG", "yomenaiyo!!!");
+            	if(D)  Log.d("TAG", "yomenaiyo!!!");
             }
 
             is2.close();
@@ -83,9 +85,9 @@ public class fstLibrary extends fstLibraryBase {
             is2.close();
             os2.close();
             
-            //Log.i("TAG", "01Loaded cascade classifier from " + cascadeFile.getAbsolutePath());
+            //if(D)  Log.d("TAG", "01Loaded cascade classifier from " + cascadeFile.getAbsolutePath());
             readASMModel(cascadeFile2.getAbsolutePath(), cascadeFile.getAbsolutePath());
-            //Log.i("TAG", "02Loaded cascade classifier from " + cascadeFile2.getAbsolutePath());
+            //if(D)  Log.d("TAG", "02Loaded cascade classifier from " + cascadeFile2.getAbsolutePath());
             
             cascadeFile.delete();
             cascadeDir.delete();
@@ -113,7 +115,7 @@ public class fstLibrary extends fstLibraryBase {
 		mRGBA = new int[mFrameSize];
 		mBitmap = Bitmap.createBitmap(previewWidtd, previewHeight, Bitmap.Config.ARGB_8888);
 		
-		Log.i(TAG, "width : " + getFrameWidth() + ", height : " + getFrameHeight());
+		if(D)  Log.d(TAG, "width : " + getFrameWidth() + ", height : " + getFrameHeight());
 		sWrapper.initialise(getFrameWidth(), getFrameHeight());
 	}
 
@@ -133,7 +135,7 @@ public class fstLibrary extends fstLibraryBase {
         long start = System.currentTimeMillis();
         if( FindFeatures(getFrameWidth(), getFrameHeight(), data, rgba) )      getShapeFromNative();
         long end = System.currentTimeMillis();
-       //Log.i(TAG, "runTime : " + (end - start) / 1000.0);
+       //if(D)  Log.d(TAG, "runTime : " + (end - start) / 1000.0);
         
         Bitmap bmp = mBitmap; 
         bmp.setPixels(rgba, 0/* offset */, getFrameWidth() /* stride */, 0, 0, getFrameWidth(), getFrameHeight());
@@ -149,9 +151,9 @@ public class fstLibrary extends fstLibraryBase {
     		sWrapper.putShape(1, i, (double)getShape(1, i) );
     	}
     	
-    	Log.i(ShapeWrapper.TAG, "LocationX : " + sWrapper.getFaceRelativeLocationX() );
-    	Log.i(ShapeWrapper.TAG, "LocationY : " + sWrapper.getFaceRelativeLocationY() );
-    	Log.i(ShapeWrapper.TAG, "Distance : " + sWrapper.getFaceDistance() );
+    	if(D)  Log.d(ShapeWrapper.TAG, "LocationX : " + sWrapper.getFaceRelativeLocationX() );
+    	if(D)  Log.d(ShapeWrapper.TAG, "LocationY : " + sWrapper.getFaceRelativeLocationY() );
+    	if(D)  Log.d(ShapeWrapper.TAG, "Distance : " + sWrapper.getFaceDistance() );
     }
 
     public native boolean FindFeatures(int width, int height, byte yuv[], int[] rgba);
