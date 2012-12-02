@@ -19,7 +19,7 @@ import com.jeikei.facelibrary.fstLibrary;
 import com.jeikei.facelibrary.fstLibraryBase;
 
 public class InvaderDemo extends Activity{
-
+ 
 	fstLibrary face_sdkView;
 	ShapeWrapper sWrapper;
 	
